@@ -22,7 +22,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Form Validation"),
+        title: Text("SIgn Up From"),
       ),
       body: MyHomePage(),
     );
@@ -37,7 +37,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // final formKey = GlobalKey<FormState>();
   final GlobalKey<FormState> formKey = new GlobalKey<FormState>();
   String name, email, phone, password;
 
@@ -75,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool isDigit(String s, int idx) =>
       "0".compareTo(s[idx]) <= 0 && "9".compareTo(s[idx]) >= 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +90,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ]),
       Container(
         padding: EdgeInsets.symmetric(horizontal: 70),
-        // width: 50.0,
         child: Form(
           key: formKey,
           child: Column(
@@ -110,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.deepOrange,
                     )),
                 validator: (String value) {
-                  return (value == null)
+                  return (value == null || value == "")
                       ? 'Do not leave the name empty.'
                       : null;
                 },
@@ -127,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.deepOrange,
                     )),
                 validator: (String value) {
-                  return (value == null)
+                  return (value == null || value == "")
                       ? 'Email ID is required'
                       : (!value.contains('@') || !value.contains('.'))
                           ? 'Invalid Email'
@@ -146,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.deepOrange,
                     )),
                 validator: (String value) {
-                  return (value == null)
+                  return (value == null || value == "")
                       ? 'Contact Number is required'
                       : (value.length == 11 && int.parse(value) != null)
                           ? null
@@ -165,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.deepOrange,
                     )),
                 validator: (String value) {
-                  return (value == null)
+                  return (value == null || value == "")
                       ? 'You must create a password first'
                       : (value.length > 5)
                           ? (isPasswordCompliant(value))
@@ -177,19 +176,18 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () => {
-                  // skey.currentState.sa
-                  if (checkboxVal)
-                    {
-                      if (formKey.currentState.validate())
-                        {this.formKey.currentState.save()}
-                    }
-                  else
-                    {
+                onPressed: () {
+                  if (checkboxVal) {
+                    if (formKey.currentState.validate()) {
+                      this.formKey.currentState.save();
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                              'Please accept the terms and conditions forst')))
+                          content: Text('Account Creation Successful')));
                     }
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            'Please accept the terms and conditions forst')));
+                  }
                 },
                 child: Text("Register"),
                 style: ButtonStyle(
